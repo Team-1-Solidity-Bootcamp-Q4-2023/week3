@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import { MyToken__factory } from "../typechain-types";
+import { MyToken__factory, TokenizedBallot__factory } from "../typechain-types";
 
 // const MINT_VALUE = 1;
 const MINT_VALUE = ethers.parseEther("1");
@@ -65,6 +65,40 @@ async function main() {
             } had ${pastVotes.toString()} units of voting power at block ${index}\n`
         );
     }
+
+
+    const PROPOSALS = ["Proposal 1", "Proposal 2", "Proposal 3"];
+    const tokenizedBallotFactory = new TokenizedBallot__factory(deployer);
+    const TokenizedBallot = await tokenizedBallotFactory.deploy(
+        PROPOSALS.map(ethers.encodeBytes32String),
+        contractAddress,
+        lastBlockNumber
+    );
+    await TokenizedBallot.waitForDeployment();
+    const contractTokenizedBallotAddress = await TokenizedBallot.getAddress();
+    console.log(`TokenizedBallot contract deployed at ${contractTokenizedBallotAddress}\n`);
+
+    const votingPower = await TokenizedBallot.votingPower(acc1.address);
+    console.log(`acc1's votingPower:`, ethers.formatEther(await TokenizedBallot.votingPower(acc1.address)));
+    console.log(`acc2's votingPower:`, ethers.formatEther(await TokenizedBallot.votingPower(acc2.address)));
+
+    let tx;
+    tx = await TokenizedBallot.connect(acc1).vote(1, MINT_VALUE / 4n);
+    console.log('vote tx hash:', (await tx.wait())?.hash);
+    console.log(`acc1's votingPower:`, ethers.formatEther(await TokenizedBallot.votingPower(acc1.address)));
+    try {
+        tx = await TokenizedBallot.connect(acc1).vote(2, MINT_VALUE / 2n);
+        console.log(tx)
+    } catch (e) {
+        console.log('caught', e);
+        // return;
+    }
+    tx = await TokenizedBallot.connect(acc1).vote(1, MINT_VALUE / 4n);
+    console.log('vote remainder tx hash:', (await tx.wait())?.hash);
+    tx = await TokenizedBallot.connect(acc1).vote(1, 0n);
+    console.log(`acc1's votingPower:`, ethers.formatEther(await TokenizedBallot.votingPower(acc1.address)));
+    console.log('vote 0 tx hash:', (await tx.wait())?.hash);
+    console.log('winning proposal:', ethers.decodeBytes32String(await TokenizedBallot.winnerName()));
 }
 
 main().catch((error) => {
