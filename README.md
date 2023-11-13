@@ -90,3 +90,33 @@ caught Error: execution reverted: "TokenizedBallot: trying to vote more than all
 }
 
 ```
+
+## Mike's output of DeployMyToken.ts and MintTokens.ts script
+```
+MyToken contract deployed at 0x4655e29C8d3b26e07E0Bff3C3Ae6d962c1090F0A
+
+Last block number: 4684311
+Last block timestamp: 1699861416 (11/13/2023 2:43:36 PM)
+Minted 20 tokens for 0x095491fc9d55de867d42c096c35aba751758c4be
+Transaction completed 0xdb95dd1ef6de9aa2842273599261b772cfa2142b435ef67cbd259df41b8196f0
+
+Last block number: 4684317
+Last block timestamp: 1699861488 (11/13/2023 2:44:48 PM)
+Minted 20 tokens for 0xed3cec444f3c79a433b49ff6cd1f8bb7b8ad7454
+Transaction completed 0x451579ffafffc7daaf969872b4e1bcd0cbe256fa612644f6cc1e7bc285e9d3da
+
+Last block number: 4684322
+Last block timestamp: 1699861560 (11/13/2023 2:46:00 PM)
+Minted 20 tokens for 0xe3c382a8b72643cc3756d532e967eb44e885c619
+Transaction completed 0x07bc130b8ce19ffb5b6a4bedc4ef5cfe60c63e5400c9d9507ef43858256d2dd7
+
+Last block number: 4684326
+Last block timestamp: 1699861608 (11/13/2023 2:46:48 PM)
+Minted 20 tokens for 0xacbed006ac55c6480cc172141a61f02137cab0cc
+Transaction completed 0x150862fc59552153c7731b195cd87885738697bcfe70328286b2e9a19449f71d
+
+Last block number: 4684329
+Last block timestamp: 1699861656 (11/13/2023 2:47:36 PM)
+Minted 20 tokens for 0xf122871816918a04108e051caa31c6438718b61e
+Transaction completed 0x30bfbf62d2c76c2d777eab01f3b076d1282f46fe44eb9d03516abde43ef4ad55
+```
