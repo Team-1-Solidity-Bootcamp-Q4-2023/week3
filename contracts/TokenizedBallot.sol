@@ -14,6 +14,7 @@ contract TokenizedBallot {
     IMyToken public tokenContract;
     Proposal[] public proposals;
     uint256 public targetBlockNumber;
+    mapping(address => uint256) public votedPower;
 
     constructor(
         bytes32[] memory _proposalNames,
@@ -28,8 +29,14 @@ contract TokenizedBallot {
         }
     }
 
+    function votingPower(address account) public view returns (uint256) {
+        return tokenContract.getPastVotes(account, targetBlockNumber) - votedPower[account];
+    }
+
     function vote(uint256 proposal, uint256 amount) external {
-        // TODO: Implement vote function
+        require(votingPower(msg.sender) >= amount, "TokenizedBallot: trying to vote more than allowed");
+        votedPower[msg.sender] += amount;
+        proposals[proposal].voteCount += amount;
     }
 
     function winningProposal() public view returns (uint winningProposal_) {
